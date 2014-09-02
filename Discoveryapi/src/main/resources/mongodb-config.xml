@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
+
+	<mongo:db-factory host="127.0.0.1" port="27017"
+		dbname="discoverydb" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+		<property name="writeResultChecking" value="EXCEPTION" />
+		<property name="writeConcern" value="SAFE" />
+	</bean>
+
+	<bean id="userMongo"
+		class="edu.asu.discovery.mongo.dao.MongoDAOImpl">
+		<constructor-arg type="java.lang.String" value="users"
+			index="0">
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.Class"
+			value="edu.asu.discovery.model.User">
+		</constructor-arg>
+	</bean>
+	
+	<bean id="labMongo"
+		class="edu.asu.discovery.mongo.dao.MongoDAOImpl">
+		<constructor-arg type="java.lang.String" value="labs"
+			index="0">
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.Class"
+			value="edu.asu.discovery.model.Lab">
+		</constructor-arg>
+	</bean>
+</beans>
