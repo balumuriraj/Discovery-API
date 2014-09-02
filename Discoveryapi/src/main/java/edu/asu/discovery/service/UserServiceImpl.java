@@ -15,8 +15,19 @@ public class UserServiceImpl implements UserService{
 	MongoDAO<User> userMongo;	
 	
 	@Override
-	public User addUser(User user) {		
-		return userMongo.add(user);
+	public User addUser(User user) {	
+		User exist = userMongo.findone(user.getId());
+		if(exist == null){
+			return userMongo.add(user);
+		} else{
+			return userMongo.update(user);
+		}
+		
+	}
+
+	@Override
+	public User findUser(String id) {
+		return userMongo.findone(id);
 	}
 
 }

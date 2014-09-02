@@ -59,6 +59,12 @@ public class MainController {
 		return new ResponseEntity<User>(ret, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/getUser/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getUser(@PathVariable String id){		
+		logger.info("Getting details of User..");
+		return new ResponseEntity<User>(userService.findUser(id), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/getLabs", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Lab>> getLabs(){		
 		logger.info("Getting details of all Labs..");
