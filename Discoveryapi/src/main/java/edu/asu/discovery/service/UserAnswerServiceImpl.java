@@ -27,4 +27,9 @@ public class UserAnswerServiceImpl implements UserAnswerService{
 		}
 	}
 
+	@Override
+	public UserAnswer getReport(String id) {		
+		return userAnswerMongo.findone(id);
+	}
+
 }

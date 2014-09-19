@@ -40,16 +40,10 @@ public class MainController {
 	
 	private static Logger logger = Logger.getLogger(MainController.class);
 	
-	@RequestMapping(value="/test", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Lab> test(@RequestBody Lab lab){
-		// query to search user
-		Query searchUserQuery = new Query(Criteria.where("id").is("0eb611de-3807-4968-9a7d-4cd204916794"));
-	 
-		System.out.println(searchUserQuery);
-		// find the saved user again.
-		Lab result = temp.findOne(searchUserQuery, Lab.class, "labs");
-		System.out.println(result);
-		return new ResponseEntity<Lab>(result, HttpStatus.OK);
+	@RequestMapping(value="/test", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> test(){
+		
+		return new ResponseEntity<String>("test", HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/guestUserLogin", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)

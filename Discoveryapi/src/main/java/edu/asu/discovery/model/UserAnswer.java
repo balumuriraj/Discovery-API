@@ -1,6 +1,7 @@
 package edu.asu.discovery.model;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,8 @@ public class UserAnswer implements MongoDoc {
 	private int clock;
 	@NotNull
 	private boolean submitstatus;
+	@NotNull
+	private Date date;
 	
 	private List<Answer> answers;
 
@@ -85,6 +88,14 @@ public class UserAnswer implements MongoDoc {
 		this.submitstatus = submitstatus;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public List<Answer> getAnswers() {
 		return answers;
 	}
@@ -98,7 +109,9 @@ public class UserAnswer implements MongoDoc {
 		return "UserAnswer [id=" + id + ", userid=" + userid + ", labid="
 				+ labid + ", currentquestion=" + currentquestion + ", score="
 				+ score + ", clock=" + clock + ", submitstatus=" + submitstatus
-				+ ", answers=" + answers + "]";
+				+ ", date=" + date + ", answers=" + answers + "]";
 	}
+
+	
 	
 }
