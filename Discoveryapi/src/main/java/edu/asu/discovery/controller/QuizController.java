@@ -1,6 +1,7 @@
 package edu.asu.discovery.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.asu.discovery.model.Answer;
+import edu.asu.discovery.model.Attempt;
 import edu.asu.discovery.model.Lab;
 import edu.asu.discovery.model.Question;
 import edu.asu.discovery.model.SubAnswer;
@@ -38,9 +40,81 @@ public class QuizController {
 	private static Logger logger = Logger.getLogger(MainController.class);
 	
 	@RequestMapping(value="/getReport/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserAnswer> getLab(@PathVariable String id){		
+	public ResponseEntity<UserAnswer> getReport(@PathVariable String id){		
 		logger.info("Getting details of report..");
 		return new ResponseEntity<UserAnswer>(userAnswerService.getReport(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getUserAnswerDoc/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserAnswer> getUserAnswerDoc(@PathVariable String id){		
+		logger.info("Getting UserAnswerDoc..");
+		return new ResponseEntity<UserAnswer>(userAnswerService.getReport(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/createUserAnswerDoc/{labid}/{userid}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserAnswer> createUserAnswerDoc(@PathVariable("labid") String labid, @PathVariable("userid") String userid){		
+		logger.info("Getting UserAnswerDoc..");
+		
+		UserAnswer userAnswer = userAnswerService.getUserAnswerDoc(labid, userid);
+		Lab lab = labService.findLab(labid);
+		
+		if(userAnswer == null){
+			userAnswer = new UserAnswer();
+			userAnswer.setLabid(labid);
+			userAnswer.setUserid(userid);
+		}
+		
+		Attempt attempt = new Attempt();
+		attempt.setDate(new Date());
+		attempt.setSubmitstatus(false);
+		attempt.setCurrentquestion(0);
+		attempt.setScore(0);
+		attempt.setClock(0);
+		
+		for(int i=0; i<lab.getLabquestions().size(); i++){
+		
+			Answer answer = new Answer();
+			answer.setId(i+1);
+			
+			for(int j=0; j<lab.getLabquestions().get(i).getSubquestions().size(); j++){
+				
+				SubAnswer subAnswer = new SubAnswer();
+				subAnswer.setId(j+1);
+				subAnswer.setSubanswer("");		
+				List<SubAnswer> subanswers = answer.getSubanswers();
+				
+				//to avoid null pointer exception
+				if(subanswers == null){
+					subanswers = new ArrayList<SubAnswer>();
+				}
+				subanswers.add(subAnswer);
+				answer.setSubanswers(subanswers);
+			}
+			
+			List<Answer> answers = attempt.getAnswers();
+			
+			//to avoid null pointer exception
+			if(answers == null){
+				answers = new ArrayList<Answer>();
+			}
+			answers.add(answer);
+			attempt.setAnswers(answers);			
+		}
+		
+		List<Attempt> attempts = userAnswer.getAttempts();
+		
+		//to avoid null pointer exception
+		if(attempts == null){
+			attempts = new ArrayList<Attempt>();
+		}
+		attempts.add(attempt);
+		userAnswer.setAttempts(attempts);	
+		
+		System.out.println(userAnswer);
+		
+		userAnswer = userAnswerService.saveAnswer(userAnswer);
+		
+		return new ResponseEntity<UserAnswer>(userAnswer, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/submitAnswer", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -48,18 +122,15 @@ public class QuizController {
 		logger.info("Submitting answer for ..." + userAnswer.getUserid());
 		
 		System.out.println(userAnswer);
+		int attemptindex = userAnswer.getAttempts().size() - 1;
 		
-		if(userAnswer.getDate() == null){
-			userAnswer.setDate(new Date());
-		}
-		
-		int currentanswerid = userAnswer.getCurrentquestion();		
+		int currentanswerid = userAnswer.getAttempts().get(attemptindex).getCurrentquestion();		
 		
 		Lab lab = labService.findLab(userAnswer.getLabid());
 		Question currentquestion = lab.getLabquestions().get(currentanswerid);
 		List<SubQuestion> subques = currentquestion.getSubquestions();		
 		
-		List<Answer> ans = userAnswer.getAnswers();
+		List<Answer> ans = userAnswer.getAttempts().get(attemptindex).getAnswers();
 		List<SubAnswer> subans = ans.get(currentanswerid).getSubanswers();
 		
 		double totalscore = 10.0;
@@ -94,11 +165,11 @@ public class QuizController {
 		System.out.println("Score: " + totalscore);
 		
 		if(currentanswerid+1 == ans.size()){
-			userAnswer.setSubmitstatus(true);
+			userAnswer.getAttempts().get(attemptindex).setSubmitstatus(true);
 		}
 		
-		userAnswer.setScore(userAnswer.getScore() + totalscore);		
-		userAnswer.setCurrentquestion(currentanswerid+1);		
+		userAnswer.getAttempts().get(attemptindex).setScore(userAnswer.getAttempts().get(attemptindex).getScore() + totalscore);		
+		userAnswer.getAttempts().get(attemptindex).setCurrentquestion(currentanswerid+1);		
 		
 		UserAnswer ret = userAnswerService.saveAnswer(userAnswer);
 		

@@ -32,4 +32,9 @@ public class UserAnswerServiceImpl implements UserAnswerService{
 		return userAnswerMongo.findone(id);
 	}
 
+	@Override
+	public UserAnswer getUserAnswerDoc(String labid, String userid) {
+		return userAnswerMongo.findone(labid, userid);
+	}
+
 }

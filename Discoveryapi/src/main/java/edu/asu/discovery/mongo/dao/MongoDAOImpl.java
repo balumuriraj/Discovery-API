@@ -56,4 +56,13 @@ public class MongoDAOImpl<T extends MongoDoc> implements MongoDAO<T>{
 		mongoTemplate.remove(obj, mongoCollection);
 	}
 
+	@Override
+	public T findone(String id1, String id2) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("labid").is(id1));
+		query.addCriteria(Criteria.where("userid").is(id2));
+		T result = mongoTemplate.findOne(query, classname, mongoCollection);
+		return result;
+	}
+
 }
