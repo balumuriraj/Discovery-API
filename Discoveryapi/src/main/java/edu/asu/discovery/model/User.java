@@ -9,8 +9,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
+ * <h1>User</h1>
+ * <p>
+ * This class is a model for User. It consists of id, email, name and type.
+ * The type denotes, if a user is ASU user or guest user.
+ * </p>
+ * 
  * @author MohanRaj Balumuri
- *
+ * @version 1.0
  */
 
 @Document

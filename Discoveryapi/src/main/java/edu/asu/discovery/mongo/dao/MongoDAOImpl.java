@@ -64,5 +64,13 @@ public class MongoDAOImpl<T extends MongoDoc> implements MongoDAO<T>{
 		T result = mongoTemplate.findOne(query, classname, mongoCollection);
 		return result;
 	}
+	
+	@Override
+	public List<T> customfindone(String field, String value) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(field).is(value));
+		List<T> result = mongoTemplate.find(query, classname, mongoCollection);
+		return result;
+	}
 
 }

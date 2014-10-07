@@ -10,8 +10,14 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
+ * <h1>Lab</h1>
+ * <p>The class consists of a lab details. It consist of id, name, its description, 
+ * and a list of questions. Here question is another object. Every document that 
+ * will be saved to the mongodb must implement MongoDoc class which ensures that
+ * id is set.</p> 
+ * 
  * @author MohanRaj Balumuri
- *
+ * @version 1.0
  */
 
 @Document
@@ -25,6 +31,7 @@ public class Lab implements MongoDoc{
 	private String labdescription;
 
 	private List<Question> labquestions;
+	
 	public String getId() {
 		return id;
 	}

@@ -9,6 +9,7 @@ public interface MongoDAO<T extends MongoDoc> {
 	public List<T> getall();
 	public T findone(String id);
 	public T findone(String id1, String id2);
+	public List<T> customfindone(String field, String value);
 	public T update(T obj);
 	public void delete(T obj);
 }

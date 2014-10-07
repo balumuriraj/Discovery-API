@@ -1,5 +1,7 @@
 package edu.asu.discovery.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,11 @@ public class UserAnswerServiceImpl implements UserAnswerService{
 	@Override
 	public UserAnswer getUserAnswerDoc(String labid, String userid) {
 		return userAnswerMongo.findone(labid, userid);
+	}
+
+	@Override
+	public List<UserAnswer> getReports(String userid) {
+		return userAnswerMongo.customfindone("userid", userid);
 	}
 
 }

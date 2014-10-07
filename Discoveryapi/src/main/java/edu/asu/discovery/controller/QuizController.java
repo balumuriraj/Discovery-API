@@ -45,6 +45,12 @@ public class QuizController {
 		return new ResponseEntity<UserAnswer>(userAnswerService.getReport(id), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/getReports/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserAnswer>> getReports(@PathVariable String id){		
+		logger.info("Getting details of report..");
+		return new ResponseEntity<List<UserAnswer>>(userAnswerService.getReports(id), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/getUserAnswerDoc/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserAnswer> getUserAnswerDoc(@PathVariable String id){		
 		logger.info("Getting UserAnswerDoc..");
