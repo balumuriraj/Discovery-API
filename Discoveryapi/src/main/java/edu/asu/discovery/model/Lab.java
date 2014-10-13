@@ -22,6 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Lab implements MongoDoc{
+	
 	@Id
 	private String id;
 	@Indexed(unique = true)
@@ -56,5 +57,9 @@ public class Lab implements MongoDoc{
 	public void setLabquestions(List<Question> labquestions) {
 		this.labquestions = labquestions;
 	}
-	
+	@Override
+	public String toString() {
+		return "Lab [id=" + id + ", labname=" + labname + ", labdescription="
+				+ labdescription + ", labquestions=" + labquestions + "]";
+	}
 }

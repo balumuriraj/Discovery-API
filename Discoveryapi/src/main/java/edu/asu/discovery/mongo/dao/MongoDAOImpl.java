@@ -57,10 +57,10 @@ public class MongoDAOImpl<T extends MongoDoc> implements MongoDAO<T>{
 	}
 
 	@Override
-	public T findone(String id1, String id2) {
+	public T findone(String id1, String id2, String value1, String value2) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("labid").is(id1));
-		query.addCriteria(Criteria.where("userid").is(id2));
+		query.addCriteria(Criteria.where(id1).is(value1));
+		query.addCriteria(Criteria.where(id2).is(value2));
 		T result = mongoTemplate.findOne(query, classname, mongoCollection);
 		return result;
 	}

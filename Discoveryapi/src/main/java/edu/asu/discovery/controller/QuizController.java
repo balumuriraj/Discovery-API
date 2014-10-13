@@ -51,6 +51,17 @@ public class QuizController {
 		return new ResponseEntity<List<UserAnswer>>(userAnswerService.getReports(id), HttpStatus.OK);
 	}
 	
+	/**
+	 * This method is used to provide all reports
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/getAllReports", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<UserAnswer>> getAllReports(){		
+		logger.info("Getting all reports..");
+		return new ResponseEntity<List<UserAnswer>>(userAnswerService.getAllReports(), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/getUserAnswerDoc/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserAnswer> getUserAnswerDoc(@PathVariable String id){		
 		logger.info("Getting UserAnswerDoc..");
@@ -133,6 +144,7 @@ public class QuizController {
 		int currentanswerid = userAnswer.getAttempts().get(attemptindex).getCurrentquestion();		
 		
 		Lab lab = labService.findLab(userAnswer.getLabid());
+		System.out.println(lab.toString());
 		Question currentquestion = lab.getLabquestions().get(currentanswerid);
 		List<SubQuestion> subques = currentquestion.getSubquestions();		
 		

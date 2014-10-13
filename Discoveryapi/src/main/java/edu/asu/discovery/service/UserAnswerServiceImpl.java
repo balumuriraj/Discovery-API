@@ -36,12 +36,17 @@ public class UserAnswerServiceImpl implements UserAnswerService{
 
 	@Override
 	public UserAnswer getUserAnswerDoc(String labid, String userid) {
-		return userAnswerMongo.findone(labid, userid);
+		return userAnswerMongo.findone("labid", "userid", labid, userid);
 	}
 
 	@Override
 	public List<UserAnswer> getReports(String userid) {
 		return userAnswerMongo.customfindone("userid", userid);
+	}
+
+	@Override
+	public List<UserAnswer> getAllReports() {
+		return userAnswerMongo.getall();
 	}
 
 }

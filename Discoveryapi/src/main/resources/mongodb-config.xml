@@ -24,6 +24,16 @@
 		</constructor-arg>
 	</bean>
 	
+	<bean id="instructorMongo"
+		class="edu.asu.discovery.mongo.dao.MongoDAOImpl">
+		<constructor-arg type="java.lang.String" value="instructors"
+			index="0">
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.Class"
+			value="edu.asu.discovery.model.Instructor">
+		</constructor-arg>
+	</bean>
+	
 	<bean id="labMongo"
 		class="edu.asu.discovery.mongo.dao.MongoDAOImpl">
 		<constructor-arg type="java.lang.String" value="labs"

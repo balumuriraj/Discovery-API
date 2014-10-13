@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class SubQuestion{
 
 	@NotEmpty
@@ -58,6 +60,13 @@ public class SubQuestion{
 
 	public void setOptions(List<String> options) {
 		this.options = options;
+	}
+
+	@Override
+	public String toString() {
+		return "SubQuestion [subquestion=" + subquestion + ", correctanswer="
+				+ correctanswer + ", answerrange=" + answerrange
+				+ ", optiontype=" + optiontype + ", options=" + options + "]";
 	}
 
 	

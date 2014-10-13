@@ -9,4 +9,5 @@ public interface UserAnswerService {
 	public UserAnswer getReport(String id);
 	public UserAnswer getUserAnswerDoc(String labid, String userid);
 	public List<UserAnswer> getReports(String userid);
+	public List<UserAnswer> getAllReports();
 }

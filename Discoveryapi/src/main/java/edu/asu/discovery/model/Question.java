@@ -52,6 +52,12 @@ public class Question{
 	public void setSubquestions(List<SubQuestion> subquestions) {
 		this.subquestions = subquestions;
 	}
+	@Override
+	public String toString() {
+		return "Question [question=" + question + ", description="
+				+ description + ", imagepath=" + imagepath + ", hint=" + hint
+				+ ", subquestions=" + subquestions + "]";
+	}
 	
 	
 	
