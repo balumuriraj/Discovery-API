@@ -23,6 +23,7 @@ import edu.asu.discovery.model.Quiz;
 import edu.asu.discovery.model.SubQuestion;
 import edu.asu.discovery.service.InstructorService;
 import edu.asu.discovery.service.LabService;
+import edu.asu.discovery.service.QuestionService;
 import edu.asu.discovery.service.UserService;
 
 @Controller
@@ -39,6 +40,9 @@ public class AdminController {
 	
 	@Autowired
 	private LabService labService;
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	private static Logger logger = Logger.getLogger(MainController.class);
 	
@@ -110,9 +114,18 @@ public class AdminController {
 	@RequestMapping(value="/addQuiz/{id}", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Lab> addQuiz(@PathVariable String id, @RequestBody Quiz quiz){		
 		logger.info("adding Quiz..");
+		
+		Question question = new Question();
+		question.setLabid(id);
+		question = questionService.addQuestion(question);
+		
+		quiz.setId(question.getId());
+		
 		Lab lab = labService.findLab(id);
-		lab.getQuizzes().add(quiz);
-		lab = labService.addLab(lab);
+		List<Quiz> quizzes = lab.getQuizzes();
+		quizzes.add(quiz);
+		lab.setQuizzes(quizzes);
+		lab = labService.saveLab(lab);
 		return new ResponseEntity<Lab>(lab, HttpStatus.OK);
 	}
 	

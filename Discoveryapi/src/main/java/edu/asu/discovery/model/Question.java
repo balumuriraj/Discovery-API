@@ -14,6 +14,8 @@ public class Question implements MongoDoc{
 	@Id
 	private String id;
 	@NotEmpty
+	private String labid;
+	@NotEmpty
 	private String question;
 	@NotEmpty
 	private String description;
@@ -30,6 +32,14 @@ public class Question implements MongoDoc{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getLabid() {
+		return labid;
+	}
+
+	public void setLabid(String labid) {
+		this.labid = labid;
 	}
 
 	public String getQuestion() {
@@ -74,9 +84,10 @@ public class Question implements MongoDoc{
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", question=" + question
-				+ ", description=" + description + ", imagepath=" + imagepath
-				+ ", hint=" + hint + ", subquestions=" + subquestions + "]";
+		return "Question [id=" + id + ", labid=" + labid + ", question="
+				+ question + ", description=" + description + ", imagepath="
+				+ imagepath + ", hint=" + hint + ", subquestions="
+				+ subquestions + "]";
 	}
 
 	

@@ -43,4 +43,15 @@ public class LabServiceImpl implements LabService{
 		labMongo.delete(lab);
 	}
 
+	@Override
+	public Lab saveLab(Lab lab) {
+		Lab exist = labMongo.findone(lab.getId());
+		if(exist == null){			
+			return null;
+		} else{
+			Lab result = labMongo.update(lab);
+			return result;
+		}
+	}
+
 }
