@@ -30,36 +30,57 @@ public class Lab implements MongoDoc{
 	private String labname;
 	@NotEmpty
 	private String labdescription;
+	@NotEmpty
+	private boolean golive;
 
-	private List<Question> labquestions;
-	
+	private List<Quiz> quizzes;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getLabname() {
 		return labname;
 	}
+
 	public void setLabname(String labname) {
 		this.labname = labname;
 	}
+
 	public String getLabdescription() {
 		return labdescription;
 	}
+
 	public void setLabdescription(String labdescription) {
 		this.labdescription = labdescription;
 	}
-	public List<Question> getLabquestions() {
-		return labquestions;
+
+	public boolean isGolive() {
+		return golive;
 	}
-	public void setLabquestions(List<Question> labquestions) {
-		this.labquestions = labquestions;
+
+	public void setGolive(boolean golive) {
+		this.golive = golive;
 	}
+
+	public List<Quiz> getQuizzes() {
+		return quizzes;
+	}
+
+	public void setQuizzes(List<Quiz> quizzes) {
+		this.quizzes = quizzes;
+	}
+
 	@Override
 	public String toString() {
 		return "Lab [id=" + id + ", labname=" + labname + ", labdescription="
-				+ labdescription + ", labquestions=" + labquestions + "]";
+				+ labdescription + ", golive=" + golive + ", quizzes="
+				+ quizzes + "]";
 	}
+
+	
 }

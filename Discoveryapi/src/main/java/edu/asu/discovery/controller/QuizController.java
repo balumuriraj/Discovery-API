@@ -68,6 +68,7 @@ public class QuizController {
 		return new ResponseEntity<UserAnswer>(userAnswerService.getReport(id), HttpStatus.OK);
 	}
 	
+	/*
 	@RequestMapping(value="/createUserAnswerDoc/{labid}/{userid}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserAnswer> createUserAnswerDoc(@PathVariable("labid") String labid, @PathVariable("userid") String userid){		
 		logger.info("Getting UserAnswerDoc..");
@@ -193,6 +194,7 @@ public class QuizController {
 		
 		return new ResponseEntity<UserAnswer>(ret, HttpStatus.OK);
 	}
+	*/
 	
 	double roundTwoDecimals(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.##");
