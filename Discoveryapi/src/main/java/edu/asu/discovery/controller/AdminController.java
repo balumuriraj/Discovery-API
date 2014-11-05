@@ -171,6 +171,19 @@ public class AdminController {
 	 * @param lab
 	 * @return
 	 */	
+	@RequestMapping(value="/saveLab", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Lab> saveLab(@RequestBody Lab lab){		
+		logger.info("Saving Lab...");
+		Lab result = labService.saveLab(lab);
+		
+		return new ResponseEntity<Lab>(result, HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 * @param lab
+	 * @return
+	 */	
 	@RequestMapping(value="/deleteLab", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, String>> deleteLab(@RequestBody Lab lab){		
 		logger.info("Deleting Lab...");
