@@ -26,6 +26,7 @@ import edu.asu.discovery.model.SubQuestion;
 import edu.asu.discovery.model.User;
 import edu.asu.discovery.model.UserAnswer;
 import edu.asu.discovery.service.LabService;
+import edu.asu.discovery.service.QuestionService;
 import edu.asu.discovery.service.UserAnswerService;
 
 @Controller
@@ -36,6 +37,9 @@ public class QuizController {
 	
 	@Autowired
 	UserAnswerService userAnswerService;
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	private static Logger logger = Logger.getLogger(MainController.class);
 	
@@ -66,6 +70,12 @@ public class QuizController {
 	public ResponseEntity<UserAnswer> getUserAnswerDoc(@PathVariable String id){		
 		logger.info("Getting UserAnswerDoc..");
 		return new ResponseEntity<UserAnswer>(userAnswerService.getReport(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getQuestion/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Question> getQuestion(@PathVariable String id){		
+		logger.info("Getting Question..");
+		return new ResponseEntity<Question>(questionService.getQuestion(id), HttpStatus.OK);
 	}
 	
 	/*

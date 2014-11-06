@@ -1,6 +1,8 @@
 package edu.asu.discovery.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +119,8 @@ public class AdminController {
 		
 		Question question = new Question();
 		question.setLabid(id);
+		List<SubQuestion> subques = new ArrayList<SubQuestion>();
+		question.setSubquestions(subques);
 		question = questionService.addQuestion(question);
 		
 		quiz.setId(question.getId());
@@ -134,23 +138,29 @@ public class AdminController {
 	 * 
 	 * @return
 	 */	
-	@RequestMapping(value="/createQuestion", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Question> createQuestion(){		
-		logger.info("Creating question..");
-		Question question = new Question();		
+	@RequestMapping(value="/saveQuestion", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Question> saveQuestion(@RequestBody Question question){		
+		logger.info("saving question..");
+		question = questionService.saveQuestion(question);
 		return new ResponseEntity<Question>(question, HttpStatus.OK);
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */	
-	@RequestMapping(value="/createSubQuestion", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SubQuestion> createSubQuestion(){		
-		logger.info("Creating subquestion..");
-		SubQuestion subquestion = new SubQuestion();
-		return new ResponseEntity<SubQuestion>(subquestion, HttpStatus.OK);
+	@RequestMapping(value="/deleteQuiz/{labid}/{quizid}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Lab> deleteQuiz(@PathVariable("labid") String labid, @PathVariable("quizid") String quizid){		
+		logger.info("Deleting quiz..");
+		questionService.deleteQuestion(quizid);
+		Lab lab = labService.findLab(labid);
+		List<Quiz> quizzes = lab.getQuizzes();
+		Iterator<Quiz> it = quizzes.iterator();
+		while(it.hasNext()){
+			if(it.next().getId().equals(quizid)){
+				it.remove();
+				break;
+			}
+		}
+		lab.setQuizzes(quizzes);
+		lab = labService.saveLab(lab);
+		return new ResponseEntity<Lab>(lab, HttpStatus.OK);
 	}
 	
 	/**

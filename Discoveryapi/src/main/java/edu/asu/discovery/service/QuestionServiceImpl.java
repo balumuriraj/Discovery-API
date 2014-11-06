@@ -31,4 +31,14 @@ public class QuestionServiceImpl implements QuestionService{
 		}
 	}
 
+	@Override
+	public Question getQuestion(String id) {
+		return questionMongo.findone(id);
+	}
+
+	@Override
+	public void deleteQuestion(String id) {
+		questionMongo.delete(questionMongo.findone(id));
+	}
+
 }
