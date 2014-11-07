@@ -62,4 +62,13 @@
 			value="edu.asu.discovery.model.UserAnswer">
 		</constructor-arg>
 	</bean>
+	
+	<bean id="attemptMongo" class="edu.asu.discovery.mongo.dao.MongoDAOImpl">
+		<constructor-arg type="java.lang.String" value="attempts"
+			index="0">
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.Class"
+			value="edu.asu.discovery.model.Attempt">
+		</constructor-arg>
+	</bean>
 </beans>

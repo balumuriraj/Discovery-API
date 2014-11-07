@@ -85,6 +85,7 @@ public class MainController {
 	@RequestMapping(value="/getUser/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getUser(@PathVariable String id){		
 		logger.info("Getting details of User..");
+		System.out.println("user by id " + userService.findUser(id));
 		return new ResponseEntity<User>(userService.findUser(id), HttpStatus.OK);
 	}
 	

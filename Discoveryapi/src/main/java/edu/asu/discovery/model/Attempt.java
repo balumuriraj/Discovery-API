@@ -5,25 +5,45 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-public class Attempt {
-	
-	@NotNull
-	private int currentquestion;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
+
+public class Attempt implements MongoDoc{
+
+	@Id
+	private String id;	
+	@NotEmpty
+	private String userid;
+	@NotEmpty
+	private String quizid;
 	@NotNull
 	private double score;
 	@NotNull
 	private int clock;
 	@NotNull
+	private int submitcount;
+	@NotNull
 	private boolean submitstatus;
 	@NotNull
 	private Date date;	
-	private List<Answer> answers;
-	
-	public int getCurrentquestion() {
-		return currentquestion;
+	private List<SubAnswer> subanswers;
+	public String getId() {
+		return id;
 	}
-	public void setCurrentquestion(int currentquestion) {
-		this.currentquestion = currentquestion;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getQuizid() {
+		return quizid;
+	}
+	public void setQuizid(String quizid) {
+		this.quizid = quizid;
 	}
 	public double getScore() {
 		return score;
@@ -37,6 +57,12 @@ public class Attempt {
 	public void setClock(int clock) {
 		this.clock = clock;
 	}
+	public int getSubmitcount() {
+		return submitcount;
+	}
+	public void setSubmitcount(int submitcount) {
+		this.submitcount = submitcount;
+	}
 	public boolean isSubmitstatus() {
 		return submitstatus;
 	}
@@ -49,18 +75,21 @@ public class Attempt {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public List<Answer> getAnswers() {
-		return answers;
+	public List<SubAnswer> getSubanswers() {
+		return subanswers;
 	}
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
+	public void setSubanswers(List<SubAnswer> subanswers) {
+		this.subanswers = subanswers;
 	}
 	@Override
 	public String toString() {
-		return "Attempt [currentquestion=" + currentquestion + ", score="
-				+ score + ", clock=" + clock + ", submitstatus=" + submitstatus
-				+ ", date=" + date + ", answers=" + answers + "]";
+		return "Attempt [id=" + id + ", userid=" + userid + ", quizid="
+				+ quizid + ", score=" + score + ", clock=" + clock
+				+ ", submitcount=" + submitcount + ", submitstatus="
+				+ submitstatus + ", date=" + date + ", subanswers="
+				+ subanswers + "]";
 	}
+	
 	
 	
 }

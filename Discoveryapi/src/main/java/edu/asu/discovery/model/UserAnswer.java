@@ -18,8 +18,8 @@ public class UserAnswer implements MongoDoc {
 	@NotEmpty
 	private String userid;
 	@NotEmpty
-	private String labid;	
-	private List<Attempt> attempts;
+	private String labid;
+	private List<QuizAttempt> quizattempts;
 	
 	public String getId() {
 		return id;
@@ -39,16 +39,15 @@ public class UserAnswer implements MongoDoc {
 	public void setLabid(String labid) {
 		this.labid = labid;
 	}
-	public List<Attempt> getAttempts() {
-		return attempts;
+	public List<QuizAttempt> getQuizattempts() {
+		return quizattempts;
 	}
-	public void setAttempts(List<Attempt> attempts) {
-		this.attempts = attempts;
+	public void setQuizattempts(List<QuizAttempt> quizattempts) {
+		this.quizattempts = quizattempts;
 	}
 	@Override
 	public String toString() {
 		return "UserAnswer [id=" + id + ", userid=" + userid + ", labid="
-				+ labid + ", attempts=" + attempts + "]";
+				+ labid + ", quizattempts=" + quizattempts + "]";
 	}
-
 }
