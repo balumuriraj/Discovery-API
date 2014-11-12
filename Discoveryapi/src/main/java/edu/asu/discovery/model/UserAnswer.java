@@ -1,10 +1,7 @@
 package edu.asu.discovery.model;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -19,8 +16,15 @@ public class UserAnswer implements MongoDoc {
 	private String userid;
 	@NotEmpty
 	private String labid;
-	private List<QuizAttempt> quizattempts;
 	
+	private HashMap<String, List<AttemptSummary>> quizattempts;
+	
+	public HashMap<String, List<AttemptSummary>> getQuizattempts() {
+		return quizattempts;
+	}
+	public void setQuizattempts(HashMap<String, List<AttemptSummary>> quizattempts) {
+		this.quizattempts = quizattempts;
+	}
 	public String getId() {
 		return id;
 	}
@@ -39,12 +43,7 @@ public class UserAnswer implements MongoDoc {
 	public void setLabid(String labid) {
 		this.labid = labid;
 	}
-	public List<QuizAttempt> getQuizattempts() {
-		return quizattempts;
-	}
-	public void setQuizattempts(List<QuizAttempt> quizattempts) {
-		this.quizattempts = quizattempts;
-	}
+	
 	@Override
 	public String toString() {
 		return "UserAnswer [id=" + id + ", userid=" + userid + ", labid="

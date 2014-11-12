@@ -7,7 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class QuizAttempt {
 	@NotEmpty
 	private String quizid;
-	private List<String> attempts;
+	private List<AttemptSummary> attempts;
+	
 	
 	public String getQuizid() {
 		return quizid;
@@ -15,10 +16,10 @@ public class QuizAttempt {
 	public void setQuizid(String quizid) {
 		this.quizid = quizid;
 	}
-	public List<String> getAttempts() {
+	public List<AttemptSummary> getAttempts() {
 		return attempts;
 	}
-	public void setAttempts(List<String> attempts) {
+	public void setAttempts(List<AttemptSummary> attempts) {
 		this.attempts = attempts;
 	}
 	@Override

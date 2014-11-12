@@ -3,6 +3,7 @@ package edu.asu.discovery.controller;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.asu.discovery.model.Answer;
 import edu.asu.discovery.model.Attempt;
+import edu.asu.discovery.model.AttemptSummary;
 import edu.asu.discovery.model.Lab;
 import edu.asu.discovery.model.Question;
 import edu.asu.discovery.model.QuizAttempt;
@@ -97,31 +99,16 @@ public class QuizController {
 			userAnswer.setUserid(userid);
 		}
 		
-		List<QuizAttempt> quizattempts = userAnswer.getQuizattempts();
-		QuizAttempt quizattempt = null;
+		HashMap<String, List<AttemptSummary>> quizattempts = userAnswer.getQuizattempts();
+		//QuizAttempt quizattempt = null;
 		int index = -1;
 		Iterator<QuizAttempt> it;
-		
-		if(quizattempts != null){
-			it = quizattempts.iterator();
-			int counter = 0;
-			while(it.hasNext()){
-				QuizAttempt next = it.next();
-				if(next.getQuizid().equals(quizid)){
-					quizattempt = next;
-					index = counter;
-				}
-				counter++;
-			}
-		}
-		else{
-			quizattempts = new ArrayList<QuizAttempt>();
+		if(quizattempts == null){
+			quizattempts = new HashMap<String, List<AttemptSummary>>();
 		}
 		
-		if(quizattempt == null){
-			quizattempt = new QuizAttempt();
-			quizattempt.setQuizid(quizid);
-		}		
+		List<AttemptSummary> attempts = quizattempts.get(quizid);
+		
 		
 		Attempt attempt = new Attempt();
 		attempt.setQuizid(quizid);
@@ -149,21 +136,45 @@ public class QuizController {
 		
 		attempt = attemptService.saveAttempt(attempt);
 		
-		List<String> attempts = quizattempt.getAttempts();		
+//		List<AttemptSummary> attempted = quizattempt.getAttempts();		
+//		
+//		//to avoid null pointer exception
+//		if(attempted == null){
+//			attempted = new ArrayList<AttemptSummary>();
+//		}
 		
-		//to avoid null pointer exception
-		if(attempts == null){
-			attempts = new ArrayList<String>();
-		}
-		attempts.add(attempt.getId());		
-		quizattempt.setAttempts(attempts);	
+		AttemptSummary attemptSummary = new AttemptSummary();
+		attemptSummary.setQuizId(quizid);
 		
-		if(index != -1){
-			quizattempts.set(index, quizattempt);
+		attemptSummary.setId(attempt.getId());
+		attemptSummary.setDate(attempt.getDate());
+		attemptSummary.setScore(attempt.getScore());
+		attemptSummary.setSubmitstatus(attempt.isSubmitstatus());
+				
+		
+		//quizattempt.setAttempts(attempted);	
+		if(attempts != null){
+			attempts.add(attemptSummary);
 		}
 		else{
-			quizattempts.add(quizattempt);
+			//quizattempts.put(quizid, attempts);
+			attempts = new ArrayList<AttemptSummary>();
+			attempts.add(attemptSummary);
 		}
+		
+//		if(index != -1){
+//			//quizattempts.set(index, quizattempt);
+//			
+//			attempts.add(quizattempt);
+//			quizattempts.put(quizid, attempts);
+//		}
+//		else{
+//			//quizattempts.add(quizattempt);
+//			attempts.add(quizattempt);
+//			quizattempts.put(quizid, attempts);
+//		}
+		
+		quizattempts.put(quizid, attempts);
 		
 		userAnswer.setQuizattempts(quizattempts);
 		
@@ -179,7 +190,7 @@ public class QuizController {
 	public ResponseEntity<Attempt> submitAnswer(@PathVariable int id, @RequestBody Attempt attempt){
 		logger.info("Submitting answer for ..." + attempt.getUserid());
 		
-		System.out.println(attempt);	
+		//System.out.println(attempt);	
 		
 		Question question = questionService.getQuestion(attempt.getQuizid());
 		List<SubQuestion> subquestions = question.getSubquestions();
@@ -210,8 +221,24 @@ public class QuizController {
 		attempt.setScore(score);	
 		attempt.setSubmitcount(attempt.getSubmitcount()+1);
 		
+		
 		if(attempt.getSubmitcount() == attempt.getSubanswers().size()){
 			attempt.setSubmitstatus(true);
+			UserAnswer userAnswer = userAnswerService.getUserAnswerDoc(question.getLabid(), attempt.getUserid());
+			List<AttemptSummary> attempts = userAnswer.getQuizattempts().get(attempt.getQuizid()); 
+			Iterator<AttemptSummary> it = attempts.iterator();
+			while (it.hasNext()) {
+				AttemptSummary item = it.next();
+				if(item.getId().equals(attempt.getId())){
+					item.setScore(attempt.getScore());
+					item.setSubmitstatus(attempt.isSubmitstatus());
+					break;
+				}
+				
+			}
+			
+			userAnswer.getQuizattempts().put(attempt.getQuizid(), attempts);
+			userAnswerService.saveAnswer(userAnswer);
 		}
 		
 		List<SubAnswer> subanswers = attempt.getSubanswers();
@@ -219,6 +246,7 @@ public class QuizController {
 		attempt.setSubanswers(subanswers);
 		
 		attempt = attemptService.saveAttempt(attempt);
+		System.out.println(attempt);
 		
 		return new ResponseEntity<Attempt>(attempt, HttpStatus.OK);
 	}
