@@ -68,9 +68,9 @@ public class MainController {
 	 * @param user This is the user object that should be saved in the DB.
 	 * @return User This returns a user object that is saved in the DB.
 	 */
-	@RequestMapping(value="/guestUserLogin", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> guestuserlogin(@RequestBody User user){
-		logger.info("Logging guest user..." + user);
+	@RequestMapping(value="/userLogin", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> userLogin(@RequestBody User user){
+		logger.info("Logging user..." + user);
 		User ret = userService.addUser(user);
 		return new ResponseEntity<User>(ret, HttpStatus.OK);
 	}
