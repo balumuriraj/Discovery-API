@@ -18,8 +18,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User addUser(User user) {	
-		User exist = userMongo.findone(user.getId());
-		if(exist == null){
+		//User exist = userMongo.findone(user.getId());
+		if(user.getId() == null){
 			return userMongo.add(user);
 		} else{
 			return userMongo.update(user);
