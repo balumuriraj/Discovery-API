@@ -11,6 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import edu.asu.discovery.model.MongoDoc;
 
+/**
+ * @author mbalumur
+ * This implementation class uses Mongo Template functions to query the DB
+ * @param <T>
+ */
 @Repository
 public class MongoDAOImpl<T extends MongoDoc> implements MongoDAO<T>{
 	

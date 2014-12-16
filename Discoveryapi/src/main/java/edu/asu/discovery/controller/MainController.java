@@ -25,12 +25,9 @@ import edu.asu.discovery.service.UserService;
 
 
 /**
- * <h1>MainController</h1>
- * <p>
+ * MainController
  * This is the main controller for the entire application. It serves the GET requests for getting guest user by id, getting all the labs,
- * getting lab by id. It serves the POST requests for guest user login, add lab and delete lab. 
- * </p>
- * 
+ * getting lab by id. It serves the POST requests for guest user login, add lab and delete lab.  
  * @author MohanRaj Balumuri
  *
  */

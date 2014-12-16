@@ -150,7 +150,6 @@ public class QuizController {
 		attemptSummary.setDate(attempt.getDate());
 		attemptSummary.setScore(attempt.getScore());
 		attemptSummary.setSubmitstatus(attempt.isSubmitstatus());
-				
 		
 		//quizattempt.setAttempts(attempted);	
 		if(attempts != null){
